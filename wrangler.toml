@@ -1,0 +1,4 @@
+name = "googlesheetsapi" 
+main = "index.js"
+node_compat = true
+compatibility_date = "2022-05-03"
