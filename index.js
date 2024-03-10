@@ -3,34 +3,6 @@ import jwt from '@tsndr/cloudflare-worker-jwt';
 
 const router = Router();
 
-const validateString = (value, maxLength) => {
-    if (!value || typeof value !== "string" || value.length > maxLength) {
-        return false;
-    }
-    return true;
-};
-
-const validateEmail = value => {
-    if (typeof value !== "string" && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value)) {
-        return false;
-    }
-    return true;
-};
-
-const getErrorMessage = error => {
-    let message;
-    if (error instanceof Error) {
-        message = error.message;
-    } else if (error && typeof error === "object" && "message" in error) {
-        message = String(error.message);
-    } else if (typeof error === "string") {
-        message = error;
-    } else {
-        message = "Something went wrong";
-    }
-    return message;
-};
-
 async function getJWTAccessToken() {
     const iat = Math.floor(Date.now() / 1000);
     const exp = iat + 3600;
@@ -113,13 +85,17 @@ async function addRow(payload, accessToken) {
                 }),
             }
         );
-        return {
-            data: response.json(),
+        if (response.ok) return {
+            data: "Success! Your Message has been recorded. I will get back to you soon.",
+            status: response.status,
+        }
+        else return {
+            error: response.statusText,
             status: response.status,
         };
     } catch (error) {
         return {
-            error: getErrorMessage(error),
+            error: error,
         };
     }
 }
@@ -130,22 +106,12 @@ router.get('/', () => {
 
 router.post('/post', async request => {
 	const data = await request.json();
-    const name = data.name;
-    const senderEmail = data.email;
-    const subject = data.subject;
-    const message = data.message;
-    if (!validateEmail(senderEmail)) {
-		return new Response("Invalid email address", { status: 400 });
-    }
-    if (!validateString(message, 5000) && !validateString(name, 500) && !validateString(subject, 500)){
-        return new Response("Invalid input", { status: 400 });
-    }
     const accessToken = await getGoogleSheetsAccessToken();
     const response = await addRow(data, accessToken);
     if (response === null || typeof response === 'undefined') {
 		return new Response('Error adding row to Google Sheets', { status: 500 });
     }
-	return new Response(JSON.stringify(response), { status: response.status });
+	return new Response(response.data, { status: response.status });
 });
 
 export default {
