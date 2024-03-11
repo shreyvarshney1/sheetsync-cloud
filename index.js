@@ -103,18 +103,21 @@ router.post('/post', async (request, env) => {
         return new Response('Invalid Input', { status: 400 });
     }
 	const accessToken = await getGoogleSheetsAccessToken(env);
-	const response = await addRow(data, accessToken, env);
+	let response = await addRow(data, accessToken, env);
 	if (response === null || typeof response === 'undefined') {
 		return new Response('Error adding row to Google Sheets', { status: 500 });
 	}
-	return new Response(response.data, { status: response.status });
+	response = new Response(response.data, { status: response.status });
+	response.headers.set('Access-Control-Allow-Origin', '*');
+	response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	return response;
 });
+
+router.all('/', () => new Response('404, not found!', { status: 404 }));
 
 export default {
 	async fetch(request, env) {
 		const response = await router.handle(request, env);
-		response.headers.set('Access-Control-Allow-Origin', '*');
-		response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 		return response;
 	},
 };
