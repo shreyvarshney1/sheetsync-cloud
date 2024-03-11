@@ -43,11 +43,11 @@ Before you begin, ensure you have the following:
    ```
 
    Replace the placeholder values with your actual Google Sheets Service Account information and RSA public key converted to a JWK token.
-   ### Note: Your RSA Public Key provided by Google Looks like:
+   ##### Note: Your RSA Public Key provided by Google Looks like:
    ```
    -----BEGIN PRIVATE KEY-----\nYour-Private-Key-Here\n-----END PRIVATE KEY-----
    ```
-   ### Change it to JWK string before adding to `.env`
+   ##### Change it to JWK string before adding to `.env`
 
 4. Deploy the Cloudflare Worker:
 
