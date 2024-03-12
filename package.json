@@ -1,6 +1,6 @@
 {
-	"name": "template-worker-router",
-	"version": "0.0.0",
+	"name": "sheetsync-cloud",
+	"version": "1.0.0",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy index.js",
