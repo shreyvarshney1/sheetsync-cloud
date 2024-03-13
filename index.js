@@ -4,7 +4,7 @@ import jwt from '@tsndr/cloudflare-worker-jwt';
 const router = Router();
 
 const validateString = value => {
-	return Boolean(Number(value)) || value == 'true' || value == 'false';
+	return Boolean(Number(value)) || value === 'true' || value === 'false' || value.charAt(0) === "=";
 };
 
 const validateEmail = value => {
@@ -57,7 +57,7 @@ async function addRow(payload, accessToken, env) {
 					'Authorization': `Bearer ${accessToken}`,
 				},
 				body: JSON.stringify({
-					range: 'Sheet1!A2:F2',
+					range: env.GOOGLE_SHEETS_SUBSCRIBERS_PAGE,
 					majorDimension: 'ROWS',
 					values: [
 						[
@@ -71,6 +71,7 @@ async function addRow(payload, accessToken, env) {
 								'/' +
 								new Date().getFullYear(),
 							new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
+							"=OFFSET(INDIRECT(ADDRESS(ROW(),COLUMN())),0,-1) + TIME(5, 30, 0)",
 						],
 					],
 				}),
