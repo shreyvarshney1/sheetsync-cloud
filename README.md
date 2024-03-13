@@ -1,6 +1,6 @@
-# Google Sheets API on Cloudflare Workers
+# SheetSync Cloud (Google Sheets API on Cloudflare Workers)
 
-[![Deploy with Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/)
+[![Deploy with Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/shreyvarshney1/sheetsync-cloud)
 
 This project leverages Cloudflare Workers and Google Sheets API to handle POST requests from users, authenticate using environment variables, and interact with Google Sheets. The application is designed to create a JWT token with a private key obtained from the specified Google Sheets service account. The token is then used to authenticate requests to the Google Sheets API, allowing appending and editing of the specified Google Sheet based on the provided subscriber ID and subscribers' page.
 
@@ -21,8 +21,8 @@ Before you begin, ensure you have the following:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/shreyvarshney1/googlesheets-api.git
-   cd googlesheets-api
+   git clone https://github.com/shreyvarshney1/sheetsync-cloud.git
+   cd sheetsync-cloud
    ```
 
 2. Install dependencies:
