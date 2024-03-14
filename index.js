@@ -4,7 +4,7 @@ import jwt from '@tsndr/cloudflare-worker-jwt';
 const router = Router();
 
 const validateString = value => {
-	return Boolean(Number(value)) || value === 'true' || value === 'false' || value.charAt(0) === "=";
+	return Boolean(Number(value)) || value === 'true' || value === 'false' || value.charAt(0) === "=" || value.charAt(0) === "+";
 };
 
 const validateEmail = value => {
