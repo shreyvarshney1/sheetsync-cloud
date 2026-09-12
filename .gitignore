@@ -3,3 +3,7 @@
 *-lock.*
 *.lock
 *.log
+.wrangler/
+.env
+.dev.vars
+.dev.vars.*

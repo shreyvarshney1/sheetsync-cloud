@@ -40,20 +40,36 @@ Before you begin, ensure you have the following:
    GOOGLE_SHEETS_PRIVATE_KEY=your-rsa-public-key-jwk-as-string
    GOOGLE_SHEETS_SUBSCRIBERS_ID=your-spreadsheet-id
    GOOGLE_SHEETS_SUBSCRIBERS_PAGE=your-subscribers-page
+   # Optional configurations:
+   # ALLOWED_ORIGINS=https://example.com,https://another.com
+   # ALLOW_LOCALHOST=true   # Disabled by default in production for security
+   # MAX_REQUESTS_PER_WINDOW=5
+   # RATE_LIMIT_WINDOW_SECONDS=600
    ```
 
-   Replace the placeholder values with your actual Google Sheets Service Account information and RSA public key converted to a JWK token.
-   ##### Note: Your RSA Public Key provided by Google Looks like:
-   ```
-   -----BEGIN PRIVATE KEY-----\nYour-Private-Key-Here\n-----END PRIVATE KEY-----
-   ```
-   ##### Change it to JWK string before adding to `.env`
+   Replace the placeholder values with your actual Google Sheets Service Account information and RSA key.
 
-4. Deploy the Cloudflare Worker:
+4. Run tests and type checks:
 
    ```bash
-   wrangler publish
+   npm run typecheck
+   npm test
    ```
+
+5. Deploy the Cloudflare Worker:
+
+   ```bash
+   npm run deploy
+   ```
+
+## Security & Features
+
+- **Strict Environment-Driven CORS**: Only origins explicitly configured in `ALLOWED_ORIGINS` are permitted. Localhost is strictly blocked in production unless explicitly enabled via `ALLOW_LOCALHOST=true`.
+- **Preflight (OPTIONS) Support**: Returns 204 No Content with proper `Access-Control-Allow-Origin`, `Access-Control-Allow-Methods`, and `Access-Control-Max-Age` headers.
+- **Formula Injection Prevention**: Automatically escapes input starting with `=`, `+`, `-`, or `@` to prevent Google Sheets CSV/formula injection.
+- **Sliding Window Rate Limiting**: Protects your API quota and spreadsheet from automated abuse and spam.
+- **OAuth Token In-Memory Caching**: Caches Google OAuth 2.0 access tokens for their 1-hour lifespan, reducing submission latency by ~300ms.
+- **Size & Format Validation**: Enforces strict RFC email validation, payload size limits (32KB max), and sanitized text fields.
 
 ## Usage
 

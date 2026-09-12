@@ -1,4 +1,15 @@
-name = "googlesheetsapi" 
-main = "index.js"
-node_compat = true
-compatibility_date = "2022-05-03"
+name = "googlesheetsapi"
+main = "src/index.ts"
+compatibility_date = "2024-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
+persist = true
