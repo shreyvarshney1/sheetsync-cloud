@@ -10,13 +10,13 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@tsndr/cloudflare-worker-jwt": "^2.5.3",
-		"itty-router": "^2.6.1"
+		"@tsndr/cloudflare-worker-jwt": "^3.2.3",
+		"itty-router": "^5.0.24"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^5.20260911.1",
-		"typescript": "^5.5.4",
-		"vitest": "^2.0.5",
+		"typescript": "^7.0.2",
+		"vitest": "^5.1.1",
 		"wrangler": "^4.131.1"
 	}
 }

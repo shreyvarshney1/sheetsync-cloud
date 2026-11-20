@@ -129,7 +129,7 @@ export default {
 
 		try {
 			const response =
-				(await router.handle(request, env)) ||
+				(await router.fetch(request, env)) ||
 				new Response(JSON.stringify({ success: false, error: 'Route not found' }), {
 					status: 404,
 					headers: { 'Content-Type': 'application/json' },
